@@ -1,20 +1,22 @@
-name: ci-workflow
+name: CI
 on:
+  push:
+    branches:
+      - development
   pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
-  check-application:
+  sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22.x
-      - name: Test and coverage
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Run tests
         run: npx jest --coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
-          SONAR_TOKEN: ${{ secrets.SONARCLOUD_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
