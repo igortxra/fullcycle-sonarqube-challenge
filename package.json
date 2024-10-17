@@ -3,13 +3,14 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "test": "npx jest"
+    "test": "jest --coverage"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "sonar-scanner": "^3.1.0"
   }
 }
